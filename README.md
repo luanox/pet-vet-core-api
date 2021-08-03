@@ -26,48 +26,103 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+# PetVet Core API
+
+The technology used in this project is:
+
+- Nest
+- Typescript
+- Postgres
+- Docker
+
+## Contributing
+
+Take a look on [CONTRIBUTING](./CONTRIBUTING) section on how we write our commits and manage pull-requests/branch.
+
 ## Installation
 
-```bash
-$ npm install
-```
-
-## Running the app
+We use Docker with docker-compose to build and run the project. To build up the app use:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
-
-## Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up --build
 ```
 
-## Support
+## Database
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+We use a tool called PGWeb, you can access this tool on browser on `http://localhost:8081` after docker is up.
 
-## Stay in touch
+## Tests
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+We create unit tests using Jest, for any questions related for tests, please take a closer look on NestJS Unit Testing section.
 
-## License
+https://docs.nestjs.com/fundamentals/testing
 
-Nest is [MIT licensed](LICENSE).
+To run e2e tests:
+
+```bash
+docker-compose -f docker-compose.e2e.yml up --abort-on-container-exit --exit-code-from pet-vet-core-api
+```
+
+The flags `---abort-on-container-exit` and `--exit-code-from` are a powerfull combination, the first one shuts things down when our test run is complete, and the second flag will use the exit code from the specified service (in our case the one named `pet-vet-core-api`) as the exit code from the overall `docker-compose` command.
+
+## How create things on this project
+
+See all available options:
+
+```bash
+nest generate --help
+```
+
+### Module
+
+```bash
+nest generate module app/{{ module_name }}
+```
+
+### Controller
+
+```bash
+nest generate controller app/{{ module_name }}
+```
+
+### Service
+
+```bash
+nest generate service app/{{ module_name }}
+```
+
+### Classes
+
+```bash
+nest generate class {{ class_name }} app/{{ module_name }}
+```
+
+### Migrations
+
+Always run migrations first
+
+```bash
+docker-compose exec pet-vet-core-api npm run typeorm -- migration:run
+```
+
+Check if the `ormconfig.ts` is configured correctly in the root folder
+
+Then create the migration file
+
+```bash
+docker-compose exec pet-vet-core-api npm run typeorm -- migration:generate -n {{ migration_name }}
+```
+
+The command above will search for all entities not yet created in the database and put all sql commands in a migration file.
+
+Which entities will be used in this process and where the migration file will be written is configured in the `ormconfig.ts` in the root folder.
+
+To update the database with the new database changes
+
+```bash
+docker-compose exec pet-vet-core-api npm run typeorm -- migration:run
+```

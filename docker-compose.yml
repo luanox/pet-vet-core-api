@@ -1,0 +1,61 @@
+version: '3.7'
+
+networks:
+  petvet:
+
+volumes:
+  postgres:
+  pgweb:
+
+services:
+  pet-vet-core-api:
+    container_name: pet-vet-core-api
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${PORT:-3000}:${PORT:-3000}
+      - 9229:9229
+    command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - petvet
+    depends_on:
+      - postgres
+    tty: true
+    stdin_open: true
+
+  postgres:
+    image: postgres:12-alpine
+    container_name: pet-vet-core-api-postgres
+    ports:
+      - ${POSTGRES_DATABASE_PORT:-5432}:5432
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DATABASE_NAME:-pet_vet_core_api_local}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - petvet
+
+  pgweb:
+    image: sosedoff/pgweb
+    restart: always
+    container_name: pet-vet-core-api-pgweb
+    ports:
+      - 8081:8081
+    links:
+      - postgres:postgres
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_DATABASE_USER:-postgres}:${POSTGRES_DATABASE_PASSWORD:-postgres}@postgres:${POSTGRES_DATABASE_PORT:-5432}/${POSTGRES_DATABASE_NAME:-pet_vet_core_api_local}?sslmode=disable
+    networks:
+      - petvet
+    depends_on:
+      - postgres
