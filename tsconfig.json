@@ -1,0 +1,41 @@
+// {
+//   "compilerOptions": {
+//     "module": "commonjs",
+//     "preserveConstEnums": true,
+//     "strictNullChecks": true,
+//     "declaration": true,
+//     "removeComments": true,
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "allowSyntheticDefaultImports": true,
+//     "target": "es2017",
+//     "sourceMap": true,
+//     "moduleResolution": "node",
+//     "lib": ["es2015"],
+//     "rootDir": "./",
+//     "outDir": ".build",
+//     "baseUrl": "./",
+//     "incremental": true
+//   }
+// }
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es5",
+    "outDir": ".build",
+    "moduleResolution": "node",
+    "lib": ["es2015"],
+    "rootDir": "./",
+    "baseUrl": "./",
+    "incremental": true
+  }
+}
