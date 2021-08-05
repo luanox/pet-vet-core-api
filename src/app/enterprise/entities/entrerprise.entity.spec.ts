@@ -1,19 +1,26 @@
 import { Enterprise } from './entrerprise.entity';
+import * as faker from 'faker';
 
 describe('Enterprise', () => {
   let enterprise;
   const properties = [
     'name',
     'city',
-    'is_sms',
-    'is_Email',
-    'logo_url',
-    'is_active',
-    'type',
+    'isSms',
+    'isEmail',
+    'logoUrl',
+    'isActive',
   ];
 
   beforeEach(() => {
     enterprise = new Enterprise();
+
+    enterprise.name = faker.name.findName();
+    enterprise.city = faker.name.findName();
+    enterprise.isSms = false;
+    enterprise.isEmail = true;
+    enterprise.logoUrl = null;
+    enterprise.isActive = true;
   });
 
   it('is defined', () => {
@@ -36,7 +43,7 @@ describe('Enterprise', () => {
     const enterprise = new Enterprise();
 
     it('some property is undefined', () => {
-      expect(enterprise).toBeUndefined();
+      expect(enterprise.name).toBeUndefined();
     });
   });
 });

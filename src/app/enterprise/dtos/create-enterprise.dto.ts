@@ -1,12 +1,24 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
-
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateEnterpriseDto {
   @ApiProperty()
-  public id: string
-
-  @ApiProperty({name: 'name'})
   @IsString()
-  name: string
+  name: string;
+
+  @ApiProperty()
+  @IsString()
+  city: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  isSms: boolean;
+
+  @ApiProperty()
+  @IsBoolean()
+  isEmail: boolean;
+
+  @ApiProperty()
+  @IsString()
+  logoUrl: string;
 }
