@@ -11,5 +11,5 @@ jobs:
       - uses: actions/setup-node@v2
       - uses: actions/checkout@v2
       - run: npm install
-      - run: npm run test
+      # - run: npm run test
 
