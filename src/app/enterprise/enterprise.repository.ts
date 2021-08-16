@@ -10,6 +10,13 @@ export class EnterpriseRepository extends AbstractRepository<Enterprise> {
       .getOne();
   }
 
+  public async findOneByName(enterpriseName: string): Promise<any> {
+    return await this.repository
+      .createQueryBuilder('enterprise')
+      .where('enterprise.name like :name', { name: `%${enterpriseName}%` })
+      .getOne();
+  }
+
   public async createOne(network: Enterprise): Promise<Enterprise> {
     return await this.repository.save(network);
   }
