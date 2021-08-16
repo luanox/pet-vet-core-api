@@ -31,4 +31,8 @@ export class EnterpriseService {
 
     return await this.enterpriseRepository.createOne(enterprise);
   }
+
+  public async findOne(enterpriseId): Promise<Enterprise> {
+    return await this.enterpriseRepository.findOne(enterpriseId);
+  }
 }
