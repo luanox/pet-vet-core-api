@@ -21,6 +21,14 @@ export class EnterpriseService {
   public async createOne(
     createEnterpriseDto: CreateEnterpriseDto,
   ): Promise<Enterprise> {
+    const existEnterprise = await this.enterpriseRepository.findOneByName(
+      createEnterpriseDto.name,
+    );
+
+    if (existEnterprise) {
+      throw new Error('Enterprise does exist!!');
+    }
+
     const enterprise = new Enterprise();
 
     enterprise.name = createEnterpriseDto.name;
@@ -30,5 +38,9 @@ export class EnterpriseService {
     enterprise.logoUrl = createEnterpriseDto.logoUrl;
 
     return await this.enterpriseRepository.createOne(enterprise);
+  }
+
+  public async findOne(enterpriseId): Promise<Enterprise> {
+    return await this.enterpriseRepository.findOne(enterpriseId);
   }
 }
